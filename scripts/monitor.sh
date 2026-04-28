@@ -1,6 +1,7 @@
 #!/bin/bash
 
 echo "===== Health Monitor Starting ====="
+echo "hello new commit"
 
 APP_URL="http://localhost:30080/health"
 MAX_RETRIES=5
