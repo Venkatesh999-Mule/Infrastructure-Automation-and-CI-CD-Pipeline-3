@@ -4,7 +4,7 @@ echo "=====Installing update====="
 sudo yum update -y
 
 #Install java 
-echo "=====Installing Java====="
+echo "=======Installing Java====="
 sudo dnf install java-17-amazon-corretto-devel -y
 
 #Install jenkins 
