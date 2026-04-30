@@ -1,10 +1,14 @@
+#!/bin/bash
 #Update the system:
+echo "=====Installing update====="
 sudo yum update -y
 
 #Install java 
+echo "=====Installing Java====="
 sudo dnf install java-17-amazon-corretto-devel -y
 
 #Install jenkins 
+echo "=====Installing Jenkins====="
 sudo wget -O /etc/yum.repos.d/jenkins.repo \
     https://pkg.jenkins.io/rpm-stable/jenkins.repo
 sudo rpm --import https://pkg.jenkins.io/rpm-stable/jenkins.io-2026.key
@@ -15,6 +19,7 @@ sudo systemctl start jenkins
 sudo systemctl enable jenkins
 
 #Install Docker :
+echo "=====Installing Docker====="
 sudo yum install docker -y
 sudo systemctl start docker
 
@@ -24,20 +29,17 @@ sudo usermod -aG docker ec2-user
 sudo systemctl restart jenkins
 
 #Install git :
+echo "=====Installing git====="
 sudo yum install git -y
 
 #Install maven :
+echo "=====Installing Maven====="
 sudo yum install maven -y
-
-#Jenkins Address link & Password :
-echo "Complete installing Jenkins in EC2 instance Now access jenkins using this address 'http://$(curl ifconfig.me):8080' this is jenkins link"
-echo "Admin Password:$(sudo cat /var/lib/jenkins/secrets/initialAdminPassword)"
-#To restart dockers:
-newgrp docker
 
 echo "=====================All packages are installed successfully======================="
 
 # Install kubectl
+echo "=====Installing Kubernets====="
 curl -LO https://dl.k8s.io/release/v1.28.0/bin/linux/amd64/kubectl
 chmod +x kubectl
 sudo mv kubectl /usr/local/bin/
@@ -80,9 +82,29 @@ sudo sed -i \
 
 sudo cat /var/lib/jenkins/.kube/config
 
-echo "=========Kubectl and Minikube are installed and configured for Jenkins user successfully==========="
+echo "========= Kubectl and Minikube are installed and configured for Jenkins user successfully ==========="
 
 #Install Terraform software :
+echo "===== Installing terraform ==== "
 sudo yum install -y yum-utils shadow-utils
 sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
 sudo yum install terraform
+
+#Jenkins Address link & Password :
+echo "Complete installing Jenkins in EC2 instance Now access jenkins using this address 'http://$(curl ifconfig.me):8080' this is jenkins link"
+echo "Admin Password:$(sudo cat /var/lib/jenkins/secrets/initialAdminPassword)"
+#To restart dockers:
+newgrp docker
+#Checking All packages version :
+echo "===java vesrion==="
+java -version
+echo "===maven==="
+mvn -version
+echo "===git vesrion==="
+git --version
+echo "===jenkins vesrion==="
+jenkins --version
+echo "===docker vesrion==="
+docker --version
+echo "===kubernets vesrion==="
+kubectl version --client
